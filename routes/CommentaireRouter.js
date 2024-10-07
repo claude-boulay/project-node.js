@@ -14,7 +14,7 @@ router.put('/comments/:id',(req,res)=>{
 });
 
 router.delete('/comments/:id',(req,res)=>{
-    deleteComment(req.params.id).then(comment=>res.status(204).send("Commentaire deleted successfully")).catch(err=>res.status(404).send({error: "Commentaire not found"}));
+    deleteComment(req.params.id).then(comment=>res.status(201).send("Commentaire deleted successfully")).catch(err=>res.status(404).send({error: "Commentaire not found"}));
     })
 router.get('/posts/:id/comments',(req,res)=>{
     getCommentsByPostID(req.params.id).then(comments=>res.send(comments)).catch(err=>res.status(404).send({error: "Post not found"}));
