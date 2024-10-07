@@ -4,11 +4,10 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 export function createUser(username,email, password) {
-    hash=bcrypt.hashSync(password, 10);
-    const User=Object({username, email, hash});
-    UsersModel.create(User, (err, newUser) => {
-        return true;
-    });
+    const hash=bcrypt.hashSync(password, 10);
+    const User=Object(username,hash,email);
+    UsersModel.create(User);
+    return true;
 
 }
 

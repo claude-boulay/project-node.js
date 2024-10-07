@@ -15,21 +15,17 @@ router.put('/users/:id', updateUser);
 
 router.delete('/users/:id', deleteUser);
 
-router.post('/users',(req,res)=>{
+router.post('/register',(req,res)=>{
     let body = "";
-    req.on("data", (chunk) => {
-        body += chunk.toString();
-    });
-    req.on("end", () => {
-        const parsedBody =res.json(JSON.parse(body));
-        createUser(parsedBody.get(username), parsedBody.get(email), parsedBody.get(password)
+    let parsedBody=req.body;
+   
+         createUser(parsedBody.username, parsedBody.email, parsedBody.password
     ,(result) => {
-        res.WriteHead(201);
-        res.send("User created successfully");
-        res.end();
-    });
+         res.WriteHead(201);
+         res.send("User created successfully");
+         res.end();
+     });
 
-    });
 });
 
 router.get('/connected', Connected);
