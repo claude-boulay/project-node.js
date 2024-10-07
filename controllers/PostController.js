@@ -10,9 +10,9 @@ export async function AddPost(title, content, author, tags) {
             content,
             author,
             tags,
+            likes: 0, // Initialiser à 0 lors de la création
         });
 
-        // Sauvegarde du post dans MongoDB
         const savedPost = await post.save(); // Attendre ici
 
         return savedPost; // Retourne le post sauvegardé
@@ -65,6 +65,135 @@ export async function updatePostById(req, res) {
         res.status(500).send("Failed to update the post", error );
     }
 }
+
+// Fonction pour liker un post
+export async function likePost(req, res) {
+    const userId = req.user.id;
+
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).send("Post not found");
+        }
+
+        // Si l'utilisateur a déjà disliké, on retire son dislike
+        if (post.dislikedBy.includes(userId)) {
+            post.dislikedBy.pull(userId);
+            post.dislikes = post.dislikedBy.length; // Met à jour le nombre de dislikes
+        }
+
+        // Si l'utilisateur a déjà liké, on retire son like
+        if (post.likedBy.includes(userId)) {
+            post.likedBy.pull(userId);
+        } else {
+            post.likedBy.push(userId);
+        }
+
+        // Met à jour le nombre de likes
+        post.likes = post.likedBy.length;
+
+        // Sauvegarde du post
+        await post.save();
+
+        // Retourne uniquement le post mis à jour
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).send("Failed to like the post", error);
+    }
+}
+
+// Fonction pour déliker un post
+export async function unlikePost(req, res) {
+    const userId = req.user.id;
+
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        // Vérifie si l'utilisateur a aimé le post
+        if (!post.likedBy.includes(userId)) {
+            return res.status(400).json({ message: "User has not liked this post" });
+        }
+
+        // Enlève l'utilisateur de la liste des utilisateurs qui aiment
+        post.likedBy.pull(userId);
+        post.likes = post.likedBy.length; // Met à jour le nombre de likes en fonction du tableau
+
+        await post.save(); // Sauvegarde les modifications
+
+        res.status(200).json(post); // Retourne le post mis à jour
+    } catch (error) {
+        res.status(500).json({ message: "Failed to unlike the post", error });
+    }
+}
+
+// Fonction pour disliker un post
+export async function dislikePost(req, res) {
+    const userId = req.user.id;
+
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).send("Post not found");
+        }
+
+        // Si l'utilisateur a déjà liké, on retire son like
+        if (post.likedBy.includes(userId)) {
+            post.likedBy.pull(userId);
+            post.likes = post.likedBy.length; // Met à jour le nombre de likes
+        }
+
+        // Si l'utilisateur a déjà disliké, on retire son dislike
+        if (post.dislikedBy.includes(userId)) {
+            post.dislikedBy.pull(userId);
+        } else {
+            post.dislikedBy.push(userId);
+        }
+
+        // Met à jour le nombre de dislikes
+        post.dislikes = post.dislikedBy.length;
+
+        // Sauvegarde du post
+        await post.save();
+
+        // Retourne uniquement le post mis à jour
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).send("Failed to dislike the post", error);
+    }
+}
+
+// Fonction pour enlever un dislike d'un post
+export async function undislikePost(req, res) {
+    const userId = req.user.id; 
+
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        // Vérifie si l'utilisateur a disliké le post
+        if (!post.dislikedBy.includes(userId)) {
+            return res.status(400).json({ message: "User has not disliked this post" });
+        }
+
+        // Enlève l'utilisateur de la liste des utilisateurs qui n'aiment pas
+        post.dislikedBy.pull(userId);
+        post.dislikes = post.dislikedBy.length; // Met à jour le nombre de dislikes en fonction du tableau
+
+        await post.save(); // Sauvegarde les modifications
+
+        res.status(200).json(post); // Retourne le post mis à jour
+    } catch (error) {
+        res.status(500).json({ message: "Failed to undislike the post", error });
+    }
+}
+
 
 // Fonction pour supprimer un post via son id
 export async function deletePostById(req, res) {

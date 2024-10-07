@@ -4,7 +4,11 @@ import {
     getAllPosts, 
     getPostById, 
     updatePostById, 
-    deletePostById 
+    deletePostById,
+    likePost,
+    unlikePost, 
+    dislikePost, 
+    undislikePost
 } from '../controllers/PostController.js';
 
 const router = express.Router();
@@ -43,9 +47,20 @@ router.put('/update/:id', (req, res) => {
     updatePostById(req, res); // Appel de la fonction pour mettre à jour un post
 });
 
+// Route pour liker un post
+router.put('/:id/like', likePost);
+
+// Route pour déliker un post
+router.put('/:id/unlike', unlikePost);
+
+// Route pour disliker un post
+router.put('/:id/dislike',  dislikePost);
+
+// Route pour enlever un dislike d'un post
+router.put('/:id/undislike',  undislikePost);
+
 // Route pour supprimer un post par ID
 router.delete('/delete/:id', (req, res) => {
     deletePostById(req, res); // Appel de la fonction pour supprimer un post
 });
-
 export default router;

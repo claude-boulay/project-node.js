@@ -27,6 +27,7 @@ export async function Connected(email, password){
             
             
 }
+
 export async function  getUser(id){
    const User= await UsersModel.findById(id);
    return User;

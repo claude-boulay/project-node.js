@@ -20,9 +20,7 @@ router.post('/register',(req,res)=>{
 
 router.post('/login',(req,res)=>{
     let body=req.body;
-    Connected(body.email, body.password).then((user) => {
-        console.log(user);
-       
+    Connected(body.email, body.password).then((user) => {       
         if(user){
             
             const secret=fs.readFileSync(".env","utf8");

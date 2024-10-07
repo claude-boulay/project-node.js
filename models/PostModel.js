@@ -14,6 +14,24 @@ const postSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+
+    likes: {
+        type: Number,
+        default: 0, // Par défaut à 0
+    },
+    dislikes: {
+        type: Number,
+        default: 0, // Par défaut à 0
+    },
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    dislikedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+
     tags: {
         type: [String],
     }
