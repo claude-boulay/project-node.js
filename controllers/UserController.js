@@ -1,4 +1,4 @@
-import UsersModel from "../model/UserModel";
+import UsersModel from "../models/UserModel";
 import fs from "fs";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
