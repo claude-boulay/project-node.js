@@ -21,11 +21,13 @@ router.post('/register',(req,res)=>{
 router.post('/login',(req,res)=>{
     let body=req.body;
     Connected(body.email, body.password).then((user) => {
+        console.log(user);
        
         if(user){
+            
             const secret=fs.readFileSync(".env","utf8");
-            console.log(secret);
-        const token=jwt.sign({id:user._id}, secret, { expiresIn: '1h' });
+           
+            const token=jwt.sign({id:user._id}, secret, { expiresIn: '1h' });
           res.status(200).send(token);
             res.end();  
         }else{

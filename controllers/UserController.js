@@ -19,7 +19,12 @@ export async function Connected(email, password){
                 return false;
             }
             const success=bcrypt.compare(password, user.password)
-            return success;
+            if(success){
+                return user;
+            }else{
+               return success; 
+            }
+            
             
 }
 export async function  getUser(id){
