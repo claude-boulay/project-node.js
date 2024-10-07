@@ -3,6 +3,7 @@ import fs from "fs";
 import mongoose from 'mongoose';
 import UserRouter from './routes/UserRouter.js';
 import PostRouter from './routes/PostRouter.js';
+import CommentaireRouter from './routes/CommentaireRouter.js';
 
 const BdUrl="mongodb+srv://ClaudeB:Cyberbouffon5@cluster0.nc5na.mongodb.net/Blogify";
 const app = express();
@@ -19,7 +20,7 @@ app.use(express.json());
 app.get('/Blogify', (req, res) => {
     res.sendFile('index.html', { root: 'views' }); 
 });
-
+app.use("/Blogify/posts/", CommentaireRouter);
 app.use("/Blogify/users/", UserRouter);
 app.use("/Blogify/posts/", PostRouter);
 
