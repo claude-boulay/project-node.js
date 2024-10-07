@@ -24,8 +24,6 @@ export async function Connected(email, password){
             }else{
                return success; 
             }
-            
-            
 }
 
 export async function  getUser(id){
@@ -41,4 +39,3 @@ export async function updateUser(id, username, email, password){
     const hash=bcrypt.hashSync(password, 10);
     await UsersModel.findByIdAndUpdate(id, {username, email, password:hash});
 }
-

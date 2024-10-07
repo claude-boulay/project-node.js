@@ -15,12 +15,12 @@ const router = express.Router();
 
 // Route pour récupérer tous les post
 router.get('/all', (req, res) => {
-    getAllPosts(req, res); // Appel de la fonction pour récupérer tous les posts
+    getAllPosts(req, res); 
 });
 
 // Route pour récupérer un post par ID
 router.get('/get/:id', (req, res) => {
-    getPostById(req, res); // Appel de la fonction pour récupérer un post par ID
+    getPostById(req, res);
 });
 
 // Route pour créer un nouveau post
@@ -35,16 +35,16 @@ router.post('/add', async (req, res) => {
             parsedBody.author,
             parsedBody.tags
         );
-        res.status(201).json(post); // Renvoie le post créé avec un statut 201
+        res.status(201).json(post);
     } catch (error) {
-        console.error("Error creating post:", error); // Log de l'erreur pour le débogage
-        res.status(500).send({ message: "Failed to create post", error: error.message }); // Renvoie un message d'erreur
+        console.error("Error creating post:", error); 
+        res.status(500).send({ message: "Failed to create post", error: error.message }); 
     }
 });
 
 // Route pour mettre à jour un post par ID
 router.put('/update/:id', (req, res) => {
-    updatePostById(req, res); // Appel de la fonction pour mettre à jour un post
+    updatePostById(req, res); 
 });
 
 // Route pour liker un post
@@ -61,6 +61,6 @@ router.put('/:id/undislike',  undislikePost);
 
 // Route pour supprimer un post par ID
 router.delete('/delete/:id', (req, res) => {
-    deletePostById(req, res); // Appel de la fonction pour supprimer un post
+    deletePostById(req, res); 
 });
 export default router;

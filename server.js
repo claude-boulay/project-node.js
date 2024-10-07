@@ -22,11 +22,15 @@ app.use(express.json());
 app.get('/Blogify', (req, res) => {
     res.sendFile('index.html', { root: 'views' }); 
 });
-app.use("/Blogify/users/", UserRouter);
-app.use(authMiddleware);
-app.use("/Blogify/posts/", CommentaireRouter);
 
+// Route pour les actions sur les utilisateurs
+app.use("/Blogify/users/", UserRouter);
+
+app.use(authMiddleware);
+
+// Route pour les actions sur les posts (ainsi que les commentaires)
 app.use("/Blogify/posts/", PostRouter);
+app.use("/Blogify/posts/", CommentaireRouter);
 
 app.use(function(req, res, next) {
     res.status(404).send('Error 404 : Sorry cant find that!');

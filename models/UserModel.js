@@ -7,5 +7,6 @@ const Userschema = new mongoose.Schema({
         deleteAt: {type: Date, default: null}
       
     });
+
 const UsersModel=new mongoose.model("Users", Userschema);
 export default UsersModel;

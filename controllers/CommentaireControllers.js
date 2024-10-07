@@ -6,7 +6,7 @@ export async function createComments(content, author_ID,Post_ID){
     CommentaireModel.create(NewCommentaire).then(()=>{return true}).catch((err)=>console.log(err)); 
 }
 
-//obtention des commentaire pour un post donné
+// Obtenir des commentaire pour un post donné
 export async function getCommentsByPostID(post_ID){
     const comments= await CommentaireModel.find({Post_ID});
     return comments;

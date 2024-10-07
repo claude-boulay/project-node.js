@@ -17,11 +17,11 @@ const postSchema = new mongoose.Schema({
 
     likes: {
         type: Number,
-        default: 0, // Par défaut à 0
+        default: 0,
     },
     dislikes: {
         type: Number,
-        default: 0, // Par défaut à 0
+        default: 0,
     },
     likedBy: [{
         type: mongoose.Schema.Types.ObjectId,

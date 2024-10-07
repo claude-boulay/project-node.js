@@ -10,23 +10,18 @@ const router = express.Router();
 // User routes
 router.post('/register',(req,res)=>{
     let parsedBody=req.body;
-   
         createUser(parsedBody.username, parsedBody.email, parsedBody.password);
         res.status(201).send("User created successfully");
         res.end();
-         
-
 });
 
 router.post('/login',(req,res)=>{
     let body=req.body;
     Connected(body.email, body.password).then((user) => {       
         if(user){
-            
             const secret=fs.readFileSync(".env","utf8");
-           
             const token=jwt.sign({id:user._id}, secret, { expiresIn: '1h' });
-          res.status(200).send(token);
+            res.status(200).send(token);
             res.end();  
         }else{
             res.status(401).send({error: "Invalid credentials"});
@@ -51,7 +46,6 @@ router.get('/:id',(req,res)=>{
     });
 } );
 
-
 router.put('/:id',(req,res)=>{
     updateUser(req.params.id, req.body.username, req.body.email, req.body.password).then(() => {
         res.status(201).send("User updated successfully");
@@ -60,7 +54,6 @@ router.put('/:id',(req,res)=>{
          res.status(400).send({error: "Invalid data "});
          res.end();
      });
-
 });
 
 router.delete('/:id',(req,res)=>{
@@ -72,8 +65,5 @@ router.delete('/:id',(req,res)=>{
         res.end();
     });
  });
-
-
-
 
 export default router;

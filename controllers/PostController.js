@@ -10,12 +10,13 @@ export async function AddPost(title, content, author, tags) {
             content,
             author,
             tags,
-            likes: 0, // Initialiser à 0 lors de la création
+            likes: 0, 
+            dislikes: 0, 
         });
 
-        const savedPost = await post.save(); // Attendre ici
+        const savedPost = await post.save();
 
-        return savedPost; // Retourne le post sauvegardé
+        return savedPost; 
     } catch (error) {
         console.error("Error adding post:", error);
         throw new Error("Failed to add post");
@@ -35,7 +36,7 @@ export  async function getAllPosts(req, res) {
 // Fonction pour lire un post via son id
 export async  function getPostById(req, res) {
     try {
-        const post = await Post.findById(req.params.id); // Récupère le post par ID
+        const post = await Post.findById(req.params.id); 
         if (!post) {
             return res.status(404).sen("Post non trouvé" );
         }
