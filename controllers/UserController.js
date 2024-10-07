@@ -5,23 +5,22 @@ import bcrypt from "bcrypt";
 
 export function createUser(username,email, password) {
     const hash=bcrypt.hashSync(password, 10);
-    const User=Object(username,hash,email);
-    UsersModel.create(User);
-    return true;
+    const user={username,password:hash,email};
+    UsersModel.create(user).then(()=>
+    {return true;});
+    
 
 }
 
 export async function Connected(email, password){
-    return new Promise((resolve, reject) => {
-        UsersModel.findOne({email:email}, (err, user) => {
-            if(err) reject(err);
-            if(!user) reject("User not found");
-            bcrypt.compare(password, user.hash, (err, res) => {
-                if(err) reject(err);
-                resolve(res);
-            });
-        });
-    });
+    const user =await UsersModel.findOne({email:email});
+            if(!user){
+                console.log("Email not found");
+                return false;
+            }
+            const success=bcrypt.compare(password, user.password)
+            return success;
+            
 }
 export async function  getUser(id){
    const User= await UsersModel.findById(id);
@@ -29,11 +28,11 @@ export async function  getUser(id){
 }
 
 export async function deleteUser(id){
-    await UsersModel.findByIdAndDelete(id);
+    await UsersModel.findByIdAndUpdate(id, {deleteAt: new Date()  });
 }
 
 export async function updateUser(id, username, email, password){
-    hash=bcrypt.hashSync(password, 10);
-    await UsersModel.findByIdAndUpdate(id, {username, email, hash});
+    const hash=bcrypt.hashSync(password, 10);
+    await UsersModel.findByIdAndUpdate(id, {username, email, password:hash});
 }
 
