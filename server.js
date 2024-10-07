@@ -11,7 +11,9 @@ mongoose.connect(BdUrl).then((result) => {
     
   });
 
-  app.use("/Blogify/users",UserRouter);
+  app.use(express.json());
+
+  app.use("/Blogify/users/",UserRouter);
 
 
   app.use(function(req, res, next) {
