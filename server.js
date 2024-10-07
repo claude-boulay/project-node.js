@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from "fs";
 import mongoose from 'mongoose';
-import UserRouter from './routes/UserRouter';
+import UserRouter from './routes/UserRouter.js';
 const BdUrl="mongodb+srv://ClaudeB:Cyberbouffon5@cluster0.nc5na.mongodb.net/Blogify";
 const app = express();
 const Port =3000;
